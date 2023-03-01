@@ -1,4 +1,9 @@
 class UserService {
+  
+  constructor() {
+
+  }
+
   async findPaginate (): Promise<boolean> {
     return true
   }
@@ -24,18 +29,6 @@ class UserService {
   }
 
   async remove (): Promise<boolean> {
-    return true
-  }
-
-  async createBatch (): Promise<boolean> {
-    return true
-  }
-
-  async updateBatch (): Promise<boolean> {
-    return true
-  }
-
-  async removeBatch (): Promise<boolean> {
     return true
   }
 }

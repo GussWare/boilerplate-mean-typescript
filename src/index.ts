@@ -1,7 +1,7 @@
 import app from './app'
 import mongoose from 'mongoose'
-import config from './config/config'
-import loggerHelper from './helpers/logger.helper'
+import config from './includes/config/config'
+import loggerHelper from './v1/helpers/logger.helper'
 
 let server: any = null
 
