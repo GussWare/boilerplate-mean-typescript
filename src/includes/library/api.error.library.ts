@@ -1,6 +1,6 @@
 export default class ApiError extends Error {
-    protected statusCode;
-    protected isOperational;
+    public statusCode: number;
+    public isOperational: boolean;
     
 	constructor(statusCode: number, message:string, isOperational:boolean = true, stack:string = "") {
 		super(message);

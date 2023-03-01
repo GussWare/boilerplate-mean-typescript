@@ -1,11 +1,13 @@
 import app from './app'
 import mongoose from 'mongoose'
 import config from './includes/config/config'
-import loggerHelper from './v1/helpers/logger.helper'
+import loggerHelper from './includes/helpers/logger.helper'
 
 let server: any = null
 
 const uri: string = config.mongoose.uri
+
+mongoose.set('strictQuery', false)
 
 mongoose.connect(uri, {
   autoIndex: true,
@@ -13,6 +15,7 @@ mongoose.connect(uri, {
 }, () => {
   server = app.listen(config.port)
 })
+
 
 const exitHandler = (): void => {
   if (server !== null) {
