@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import HttpStatus from 'http-status'
 
 class UserController {
+  
   async findPaginate (): Promise<boolean> {
     return true
   }

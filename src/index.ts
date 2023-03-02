@@ -7,15 +7,13 @@ let server: any = null
 
 const uri: string = config.mongoose.uri
 
-mongoose.set('strictQuery', false)
-
 mongoose.connect(uri, {
   autoIndex: true,
-  autoCreate: true
+  autoCreate: true,
+  useNewUrlParser:true
 }, () => {
   server = app.listen(config.port)
 })
-
 
 const exitHandler = (): void => {
   if (server !== null) {
