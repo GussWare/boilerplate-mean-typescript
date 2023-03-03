@@ -3,13 +3,13 @@ import _ from "underscore";
 
 class PaginationHelper {
     async search(search: string, columns: string[]): Promise<IColumnSearch[]> {
-        const searchOR: IColumnSearch[] = [];
-
-        for (const column of columns) {
+        
+        const searchOR: IColumnSearch[] = columns.map((column) => {
             const item: IColumnSearch = {};
-            item[column] = { $regex: search, $options: "i" };
-            searchOR.push(item);
-        }
+            item[column] = { $regex: search, $options: "i" }
+
+            return item;
+        });
 
         return searchOR;
     }
@@ -19,11 +19,9 @@ class PaginationHelper {
             return "createdAt";
         }
 
-        const sortingCriteria: string[] = [];
-
-        sortBy.split(",").forEach((sortOption) => {
+        const sortingCriteria = sortBy.split(",").map((sortOption) => {
             const [key, order] = sortOption.split(":");
-            sortingCriteria.push((order === "desc" ? "-" : "") + key);
+            return (order === "desc" ? "-" : "") + key;
         });
 
         const sort = sortingCriteria.join(" ");
@@ -31,20 +29,10 @@ class PaginationHelper {
         return sort;
     }
 
-    async limit(limitOption:number ): Promise<number> {
-        const limit = (limitOption > 0) ? limitOption : 10;
+    async skip(page: number, limit: number): Promise<number> {
+        const skip = (page - 1) * limit;
 
-        return limit;
-    }
-
-    async page(pageOption: number): Promise<number> {
-        const page = (pageOption > 0) ? pageOption : 1;
-
-        return page;
-    }
-
-    async skip() {
-
+        return skip;
     }
 }
 

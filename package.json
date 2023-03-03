@@ -26,6 +26,7 @@
     "@types/express-locale": "2.0.1",
     "@types/http-status": "^1.1.2",
     "@types/morgan": "1.9.3",
+    "@types/passport": "^1.0.12",
     "@types/underscore": "^1.11.4",
     "@types/validator": "^13.7.12",
     "faker": "^5.5.3",

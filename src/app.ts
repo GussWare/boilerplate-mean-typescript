@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import compression from 'compression'
 import cors from 'cors'
 import morgan from 'morgan'
+import passport from "passport"
 import mongoSanitize from 'express-mongo-sanitize'
 import createLocaleMiddleware from 'express-locale'
 import * as constants from './includes/config/constants'
@@ -11,6 +12,7 @@ import config from './includes/config/config'
 import rv1 from "./v1/routes"
 import ApiError from "./includes/library/api.error.library"
 import ErrorMiddleware from "./includes/middelware/error.middleware"
+import jwtMiddleware from './v1/middlewares/jwt.middleware';
 
 const app = express()
 
@@ -35,6 +37,10 @@ app.use((_, __, next: NextFunction) => {
 });
 
 app.use("/api", rv1);
+
+// jwt authentication
+app.use(passport.initialize());
+passport.use("jwt", jwtMiddleware.getStrategy());
 
 // convert error to ApiError, if needed
 app.use(ErrorMiddleware.converter);

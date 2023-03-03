@@ -1,4 +1,4 @@
-class UserService {
+export default class UserService {
   
   constructor() {
 
@@ -12,7 +12,7 @@ class UserService {
     return true
   }
 
-  async findById (): Promise<boolean> {
+  async findById (id: string): Promise<boolean> {
     return true
   }
 
@@ -32,5 +32,3 @@ class UserService {
     return true
   }
 }
-
-export default new UserService()
