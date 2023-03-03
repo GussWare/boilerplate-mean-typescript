@@ -42,6 +42,10 @@ app.use("/api", rv1);
 app.use(passport.initialize());
 passport.use("jwt", jwtMiddleware.getStrategy());
 
+// documentos estaticos
+app.use("/files", express.static("../files", { redirect: false }));
+app.use("/assets", express.static("../assets", { redirect: false }));
+
 // convert error to ApiError, if needed
 app.use(ErrorMiddleware.converter);
 
