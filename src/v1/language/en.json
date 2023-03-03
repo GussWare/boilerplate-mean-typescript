@@ -1,0 +1,13 @@
+
+{
+    "GENERAL_ERROR_NOT_FOUND":"Not Found.",
+    "GENERAL_ERROR_API_NOT_FOUND":"Api Not Found.",
+
+    "USERS_ERROR_EMAIL_ALREADY_TAKEN":"Email already taken.",
+    "USERS_ERROR_USER_NOT_FOUND":"User Not Found.",
+    "USERS_ERROR_INCORRECT_EMAIL_AND_OR_PASSWORD":"Incorrect Emaul and/or Password.",
+
+    "AUTH_ERROR_PLEASE_AUTHENTICATE":"Please, authenticate.",
+    "AUTH_ERROR_PASSWORD_RESET_FAILED":"Password reset failed.",
+    "AUTH_ERROR_EMAIL_VERIFICATION_FAILED":"Email verification failed."
+}
