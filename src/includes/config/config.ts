@@ -3,7 +3,7 @@ import path from 'path'
 import Joi from 'joi'
 
 dotenv.config({ 
-  path: path.join(__dirname, '../../.env')
+  path: path.join(__dirname, '../../../.env')
 })
 
 const envVarsSchema = Joi.object()
@@ -44,8 +44,6 @@ const { value: envVars } = envVarsSchema
   .prefs({ errors: { label: 'key' } })
   .validate(process.env)
 
-const uri: string = ''
-
 export default {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
@@ -55,7 +53,7 @@ export default {
     api: envVars.URL_API
   },
   mongoose: {
-    uri: uri,
+    uri:envVars.MONGO_URI,
     options: {
       useCreateIndex: true,
       useNewUrlParser: true,
