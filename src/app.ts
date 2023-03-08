@@ -13,6 +13,7 @@ import rv1 from "./v1/routes"
 import ApiError from "./includes/library/api.error.library"
 import ErrorMiddleware from "./includes/middelware/error.middleware"
 import jwtMiddleware from './v1/middlewares/jwt.middleware';
+import loggerHelper from './includes/helpers/logger.helper';
 
 const app = express()
 
@@ -51,5 +52,8 @@ app.use(ErrorMiddleware.converter);
 
 // handle error
 app.use(ErrorMiddleware.handler);
+
+loggerHelper.info(JSON.stringify(config));
+loggerHelper.info("SERVIDOR CORRIENDO...");
 
 export default app
