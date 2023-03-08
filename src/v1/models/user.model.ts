@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, {Model} from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs"
-import { IPaginationOptions, Img, IUser, IUserFilter, IColumnSearch } from "../../types";
+import { IPaginationOptions, Img, IUser, IUserFilter, IColumnSearch, IPaginationResponse, IUserModel } from "../../types";
 // import * as paginationHelper from "../helpers/pagination.helper";
 import ToJsonPlugin from "./plugins/tojson.plugin";
 import paginationHelper from "../../includes/helpers/pagination.helper";
@@ -10,14 +10,17 @@ const imgSchema = new mongoose.Schema<Img>({
     name: {
         type: String,
         required: true,
+        default: "no-img.png"
     },
     imgUrl: {
         type: String,
         required: true,
+        default: "no-img.png"
     },
     thumbnailUrl: {
         type: String,
         required: false,
+        default: "no-img.png"
     },
 });
 
@@ -97,6 +100,14 @@ userSchema.statics.paginate = async function (filter: IUserFilter, options: IPag
         advancedFilter.push({ email: filter.email });
     }
 
+    if('enabled' in filter) {
+        advancedFilter.push({ enabled: filter.enabled });
+    }
+
+    if('enabled' in filter) {
+        advancedFilter.push({ enabled: filter.enabled });
+    }
+
     const filterFind: any = advancedFilter.length > 0 ? { $and: advancedFilter } : {};
 
     // Si se especifica una búsqueda, se hace uso del helper de búsqueda
@@ -132,7 +143,7 @@ userSchema.statics.paginate = async function (filter: IUserFilter, options: IPag
     return Promise.all([countPromise, docsPromise]).then((values) => {
         const [totalResults, results] = values;
         const totalPages = Math.ceil(totalResults / limit);
-        const result = {
+        const result: IPaginationResponse = {
             results,
             page,
             limit,
@@ -167,6 +178,6 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-const User = mongoose.model<IUser>("User", userSchema);
+const UserModel: Model<IUser, IUserModel> = mongoose.model("User", userSchema);
 
-export default User;
+export default UserModel;
