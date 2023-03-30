@@ -1,10 +1,10 @@
 import mongoose, {Model} from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs"
-import { IPaginationOptions, Img, IUser, IUserFilter, IColumnSearch, IPaginationResponse, IUserModel } from "../../types";
+import { IPaginationOptions, Img, IUser, IUserFilter, IColumnSearch, IPaginationResponse, IUserModel, IUserDocument } from "../../../types";
 // import * as paginationHelper from "../helpers/pagination.helper";
-import ToJsonPlugin from "./plugins/tojson.plugin";
-import paginationHelper from "../../includes/helpers/pagination.helper";
+import ToJsonPlugin from "../plugins/tojson.plugin";
+import paginationHelper from "../../../includes/helpers/pagination.helper";
 
 const imgSchema = new mongoose.Schema<Img>({
     name: {
@@ -160,24 +160,26 @@ userSchema.statics.isEmailTaken = async function (email: string, excludeUserId?:
     return !!user;
 };
 
-userSchema.statics.isUsernameTaken = async function (username: string, excludeUserId?: mongoose.Types.ObjectId) {
+userSchema.statics.isUserNameTaken = async function (username: string, excludeUserId?: mongoose.Types.ObjectId) {
     const user = await this.findOne({ username, _id: { $ne: excludeUserId } });
     return !!user;
 };
 
 userSchema.methods.isPasswordMatch = async function (password: string) {
     const user = this;
+    //@ts-ignore
     return bcrypt.compare(password, user.password);
 };
 
 userSchema.pre("save", async function (next) {
     const user = this;
     if (user.isModified("password")) {
+        //@ts-ignore
         user.password = await bcrypt.hash(user.password, 8);
     }
     next();
 });
 
-const UserModel: Model<IUser, IUserModel> = mongoose.model("User", userSchema);
+const UserModel: Model<IUser, IUserModel, IUserDocument> = mongoose.model("User", userSchema);
 
 export default UserModel;

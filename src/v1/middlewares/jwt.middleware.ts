@@ -1,28 +1,26 @@
-import { Strategy, ExtractJwt, VerifiedCallback } from 'passport-jwt';
-import UserService from '../services/users/user.service';
+const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
+import userService from '../services/users/user.service';
 import config from '../../includes/config/config';
 import * as constants from '../../includes/config/constants';
 import { Request } from 'express';
 import { IPayloadJWT } from '../../types';
 
 class JwtMiddleware {
-  protected UserService: UserService;
   protected JwtOptions: { secretOrKey: string; jwtFromRequest: (req: Request) => string };
 
   constructor() {
     this.JwtOptions = {
       secretOrKey: config.jwt.secret,
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: (ExtractJwt.fromAuthHeaderAsBearerToken()) ? ExtractJwt.fromAuthHeaderAsBearerToken() : "",
     };
-    this.UserService = new UserService();
   }
 
-  verify: VerifiedCallback = async (payload: IPayloadJWT, done:any) => {
+  async verify(payload: IPayloadJWT, done:any) {
     try {
       if (payload.type !== constants.TOKEN_TYPE_ACCESS) {
         throw new Error('Invalid token type');
       }
-      const user = await this.UserService.findById(payload.sub);
+      const user = await userService.findById(payload.sub);
       if (!user) {
         return done(null, false);
       }
@@ -30,10 +28,10 @@ class JwtMiddleware {
     } catch (error) {
       done(error, false);
     }
-  };
+  }
 
   getStrategy() {
-    const jwtStrategy = new Strategy(this.JwtOptions, this.verify);
+    const jwtStrategy = new JwtStrategy(this.JwtOptions, this.verify);
     return jwtStrategy;
   }
 }

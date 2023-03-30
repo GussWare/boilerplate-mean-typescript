@@ -1,12 +1,11 @@
-import { IPaginationOptions, IUser, IUserFilter } from "../../../types"
-import UserModel from "../../models/user.model"
-import _ from "underscore"
+import { ICrudService, IPaginationOptions, IUser, IUserDocument, IUserFilter } from "../../../types"
+import UserModel from "../../models/api/user.model"
+import _ from "lodash"
+import HttpStatus from "http-status";
+import ApiError from "../../../includes/library/api.error.library";
+import * as constants from "../../../includes/config/constants";
 
-export default class UserService {
-
-  constructor() {
-
-  }
+class UserService implements ICrudService<IUser> {
 
   //@ts-ignore
   async findPaginate(filter: IUserFilter, options: IPaginationOptions): Promise<IPaginationResponse> {
@@ -15,25 +14,25 @@ export default class UserService {
     return data;
   }
 
-  async findAll(): Promise<IUser[]> {
+  async findAll(): Promise<IUserDocument[]> {
     const data = await UserModel.find();
     return data;
   }
 
-  async findById(id: string): Promise<IUser | null> {
-    const user = await UserModel.findById(id);
-    return user;
+  async findById(id: string): Promise<IUserDocument | null> {
+    const resource = await UserModel.findById(id);
+    return resource;
   }
 
-  async findByEmail(email: string): Promise<IUser | null> {
-    const user = await UserModel.findOne({
-      email: email
+  async findByEmail(email: string): Promise<IUserDocument | null> {
+    const resource = await UserModel.findOne({
+      email: email, enabled: constants.SI
     });
 
-    return user;
+    return resource;
   }
 
-  async create(data: IUser): Promise<IUser> {
+  async create(data: IUser): Promise<IUserDocument> {
     //@ts-ignore
     if (await UserModel.isEmailTaken(data.email)) {
       //@ts-ignore
@@ -41,20 +40,20 @@ export default class UserService {
     }
 
     //@ts-ignore
-    if (await UserModel.isUsernameTaken(data.username)) {
+    if (await UserModel.isUserNameTaken(data.username)) {
       //@ts-ignore
       throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
     }
 
-    let user = await UserModel.create(data);
+    let resource = await UserModel.create(data);
 
-    return user;
+    return resource;
   }
 
-  async update(id: string, data: IUser): Promise<IUser | null> {
-    let userDB = await this.findById(id);
+  async update(id: string, data: IUser): Promise<IUserDocument | null> {
+    let dataDB = await this.findById(id);
 
-    if (!userDB) {
+    if (!dataDB) {
       //@ts-ignore
       throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
     }
@@ -66,25 +65,59 @@ export default class UserService {
     }
 
     //@ts-ignore
-    if (await UserModel.isUsernameTaken(data.username, id)) {
+    if (await UserModel.isUserNameTaken(data.username, id)) {
       //@ts-ignore
       throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
     }
 
-    let dataUpdate = _.extend(userDB, data);
-    let result = await UserModel.updateOne(dataUpdate);
+    let dataUpdate = _.extend(dataDB, data);
+    let result = await UserModel.updateOne({ _id: id }, dataUpdate);
 
     if (!result.ok) {
       //@ts-ignore
       throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_UPDATE_USER"));
     }
 
-    let user = await this.findById(id);
+    let resource = await this.findById(id);
 
-    return user;
+    return resource;
   }
 
-  async remove(): Promise<boolean> {
-    return true
+  async enabled(id: string): Promise<boolean> {
+    const resource = await this.findById(id);
+
+    if (!resource) {
+      //@ts-ignore
+      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+    }
+
+    await UserModel.updateOne({ _id: id }, { enabled: constants.SI });
+
+    return true;
+  }
+
+  async disabled(id: string): Promise<boolean> {
+    const resource = await this.findById(id);
+
+    if (!resource) {
+      //@ts-ignore
+      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+    }
+
+    await UserModel.updateOne({ _id: id }, { enabled: constants.NO });
+
+    return true;
+  }
+
+  async bulk(data: IUser[]): Promise<boolean> {
+    const dataChunk = _.chunk(data, 1000);
+
+    for (const key in dataChunk) {
+      await UserModel.insertMany(dataChunk[key]);
+    }
+
+    return true;
   }
 }
+
+export default new UserService();

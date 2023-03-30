@@ -1,7 +1,9 @@
 import express from 'express'
+import authRoute from './auth.router'
 import userRoute from './users.router'
-import config from "../../includes/config/config"
-import * as constants from "../../includes/config/constants"
+import testRoute from './test.router'
+import config from "../../../includes/config/config"
+import * as constants from "../../../includes/config/constants"
 
 const router = express.Router()
 
@@ -9,11 +11,18 @@ const defaultRoutes = [
   {
     path: '/v1',
     route: userRoute
+  },
+  {
+    path: '/v1/auth',
+    route: authRoute
   }
 ]
 
 const devRoutes:any = [
-
+  {
+    path: '/v1',
+    route: testRoute
+  }
 ]
 
 defaultRoutes.forEach((route) => {

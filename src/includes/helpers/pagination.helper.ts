@@ -1,5 +1,4 @@
 import { IColumnSearch } from "../../types";
-import _ from "underscore";
 
 class PaginationHelper {
     async search(search: string, columns: string[]): Promise<IColumnSearch[]> {

@@ -13,6 +13,7 @@ mongoose.connect(uri, {
   useNewUrlParser:true
 }, () => {
   server = app.listen(config.port)
+  loggerHelper.info(`SERVIDOR CORRIENDO EN EL PUERTO ${config.port}`);
 })
 
 const exitHandler = (): void => {

@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import path from 'path'
 import Joi from 'joi'
 
-dotenv.config({ 
+dotenv.config({
   path: path.join(__dirname, '../../../.env')
 })
 
@@ -43,7 +43,7 @@ const envVarsSchema = Joi.object()
 const { value: envVars } = envVarsSchema
   .prefs({ errors: { label: 'key' } })
   .validate(process.env)
-
+  
 export default {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
@@ -78,5 +78,12 @@ export default {
       }
     },
     from: envVars.EMAIL_FROM
+  },
+  twilio: {
+    accountSid: envVars.TWILIO_ACCOUNT_SID,
+    authToken: envVars.TWILIO_AUTH_TOKEN
+  },
+  language : {
+    default: envVars.DEFAULT_LANGUAGE
   }
 }

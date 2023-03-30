@@ -1,0 +1,6 @@
+class LoadJsonFileHelper {
+
+    async load() {
+        
+    }
+}

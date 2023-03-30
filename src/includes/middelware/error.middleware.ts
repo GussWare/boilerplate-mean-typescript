@@ -4,77 +4,58 @@ import mongoose from "mongoose"
 import httpStatus from "http-status";
 import config from "../config/config"
 import * as constants from "../config/constants"
-import loggerHelper from "../helpers/logger.helper";
 
 class ErrorMiddleware {
 
-    constructor() {
 
-    }
+	async errorConverter(err: Error, _req: Request, _res: Response, next: NextFunction) {
+		let error = err;
 
-    /**
-     * Se encarga de cachar el error y transformarlo con forme a la libreria ApiError
-     * 
-     * @param err 
-     * @param _req 
-     * @param _res 
-     * @param next 
-     */
-    converter(err: Error, _req: Request, _res: Response, next: NextFunction) {
+		if (!(error instanceof ApiError)) {
+			let statusCode = null;
 
-        let error: any = err;
+			//@ts-ignore
+			if (error.statusCode) {
+				//@ts-ignore
+				statusCode = error.statusCode;
+			} else {
+				if (error instanceof mongoose.Error) {
+					statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+				} else {
+					statusCode = httpStatus.BAD_REQUEST;
+				}
+			}
 
-        if (!(error instanceof ApiError)) {
-            let statusCode = null;
+			const message = error.message || httpStatus[statusCode];
+			//@ts-ignore
+			error = new ApiError(statusCode, message, false, err.stack);
+		}
+		next(error);
+	}
 
-            if (error.statusCode) {
-                statusCode = error.statusCode;
-            } else {
-                if (error instanceof mongoose.Error) {
-                    statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-                } else {
-                    statusCode = httpStatus.BAD_REQUEST;
-                }
-            }
 
-            const message = error.message || httpStatus[statusCode];
-            error = new ApiError(statusCode, message, false, err.stack);
-        }
+	async errorHandler(err: ApiError, _req: Request, res: Response, _next: NextFunction) {
+		let { statusCode, message } = err;
 
-        next(error);
-    }
+		if (config.env === constants.NODE_ENV_PRODUCTION && !err.isOperational) {
+			statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+			message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+		}
 
-    /**
-     * Se encarga de recibir el error de la libreria ApiError y devulver el mensaje de error al cliente con el formato deseado
-     * 
-     * @param err 
-     * @param _req 
-     * @param res 
-     * @param _next 
-     */
-    handler(err: ApiError, _req: Request, res: Response, _next: NextFunction) {
-        let { statusCode, message } = err;
+		res.locals.errorMessage = err.message;
 
-        if (config.env === constants.NODE_ENV_PRODUCTION && !err.isOperational) {
-            statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-            message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
-        }
+		const response = {
+			code: statusCode,
+			message,
+			...(config.env === constants.NODE_ENV_DEVELOPER && { stack: err.stack }),
+		};
 
-        res.locals.errorMessage = err.message;
+		if (config.env === constants.NODE_ENV_DEVELOPER) {
 
-        const response = {
-            code: statusCode,
-            message,
-            ...(config.env === constants.NODE_ENV_DEVELOPER && { stack: err.stack }),
-        };
+		}
 
-        if (config.env === constants.NODE_ENV_DEVELOPER) {
-            loggerHelper.error(err);
-        }
-
-        res.status(statusCode).send(response);
-    }
+		res.status(statusCode).send(response);
+	}
 }
-
 
 export default new ErrorMiddleware();
