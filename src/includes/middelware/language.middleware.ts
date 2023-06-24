@@ -3,7 +3,6 @@ import Polyglot from 'node-polyglot';
 import httpStatus from "http-status";
 import ApiError from "../library/api.error.library"
 import config from "../config/config";
-import loggerHelper from "../helpers/logger.helper";
 
 class LanguageMiddleware {
 
@@ -12,10 +11,6 @@ class LanguageMiddleware {
 
     try {
       const pathFile = `../../v1/language/${lang}.json`
-
-      loggerHelper.debug("path");
-      loggerHelper.debug(pathFile);
-
       const polyglot = new Polyglot();
       const messages = await import(pathFile);
 

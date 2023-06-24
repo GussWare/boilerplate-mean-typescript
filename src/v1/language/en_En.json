@@ -9,5 +9,7 @@
 
     "AUTH_ERROR_PLEASE_AUTHENTICATE":"Please, authenticate.",
     "AUTH_ERROR_PASSWORD_RESET_FAILED":"Password reset failed.",
-    "AUTH_ERROR_EMAIL_VERIFICATION_FAILED":"Email verification failed."
+    "AUTH_ERROR_EMAIL_VERIFICATION_FAILED":"Email verification failed.",
+
+    "ACTIONS_ERROR_MODULE_ID_REQUIRED": "The id module is required."
 }

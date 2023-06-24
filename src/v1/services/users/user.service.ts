@@ -1,11 +1,11 @@
 import { ICrudService, IPaginationOptions, IUser, IUserDocument, IUserFilter } from "../../../types"
-import UserModel from "../../models/api/user.model"
+import UserModel from "../../models/sistema/user.model"
 import _ from "lodash"
-import HttpStatus from "http-status";
+import httpStatus from "http-status";
 import ApiError from "../../../includes/library/api.error.library";
 import * as constants from "../../../includes/config/constants";
 
-class UserService implements ICrudService<IUser> {
+class UserService implements ICrudService {
 
   //@ts-ignore
   async findPaginate(filter: IUserFilter, options: IPaginationOptions): Promise<IPaginationResponse> {
@@ -36,13 +36,13 @@ class UserService implements ICrudService<IUser> {
     //@ts-ignore
     if (await UserModel.isEmailTaken(data.email)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_EMAIL_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_EMAIL_ALREADY_TAKEN"));
     }
 
     //@ts-ignore
     if (await UserModel.isUserNameTaken(data.username)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
     }
 
     let resource = await UserModel.create(data);
@@ -55,19 +55,19 @@ class UserService implements ICrudService<IUser> {
 
     if (!dataDB) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
     }
 
     //@ts-ignore
     if (await UserModel.isEmailTaken(data.email, id)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_EMAIL_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_EMAIL_ALREADY_TAKEN"));
     }
 
     //@ts-ignore
     if (await UserModel.isUserNameTaken(data.username, id)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
     }
 
     let dataUpdate = _.extend(dataDB, data);
@@ -75,7 +75,7 @@ class UserService implements ICrudService<IUser> {
 
     if (!result.ok) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_UPDATE_USER"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_UPDATE_USER"));
     }
 
     let resource = await this.findById(id);
@@ -88,7 +88,7 @@ class UserService implements ICrudService<IUser> {
 
     if (!resource) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
     }
 
     await UserModel.updateOne({ _id: id }, { enabled: constants.SI });
@@ -101,7 +101,7 @@ class UserService implements ICrudService<IUser> {
 
     if (!resource) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
     }
 
     await UserModel.updateOne({ _id: id }, { enabled: constants.NO });

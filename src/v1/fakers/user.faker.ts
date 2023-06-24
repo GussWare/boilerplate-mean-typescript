@@ -3,10 +3,13 @@ import { IFaker, IUser } from "../../types";
 import faker from "faker";
 import _ from "lodash";
 import userService from "../services/users/user.service";
+import UserModel from "../models/sistema/user.model";
 
 class UserFaker implements IFaker {
 
     async make(): Promise<void> {
+        await UserModel.deleteMany();
+        
         let adminData: IUser = {
             name: "Gustavo",
             surname: "Avila Medina",
@@ -22,7 +25,7 @@ class UserFaker implements IFaker {
 
         const dataInsert = [];
 
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 100; i++) {
             let password = faker.internet.password();
             let firstName = faker.name.firstName();
             let lastName = faker.name.lastName();

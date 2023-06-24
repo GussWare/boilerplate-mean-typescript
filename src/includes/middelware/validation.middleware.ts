@@ -6,9 +6,11 @@ import ApiError from "../library/api.error.library";
 
 const validateMiddleware =
     (schema:any) =>
-        (req: Request, _res: Response, next: NextFunction): void => {
+        (req: Request, _res: Response, next: NextFunction): void => {            
             const validSchema = _.pick(schema, ["params", "query", "body"]);
             const object = _.pick(req, Object.keys(validSchema));
+
+
             const { value, error } = Joi.compile(validSchema)
                 .prefs({ errors: { label: "key" } })
                 .validate(object);

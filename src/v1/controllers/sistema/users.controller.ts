@@ -1,15 +1,22 @@
 import { Request, Response } from 'express'
 import HttpStatus from 'http-status'
 import ApiError from '../../../includes/library/api.error.library';
-import { IPaginationOptions, IUser, IUserFilter } from '../../../types';
+import { IController, IPaginationOptions, IUser, IUserFilter } from '../../../types';
 import userService from '../../services/users/user.service'
 import _ from "lodash"
 
-class UserController {
+class UserController implements IController {
 
   async findPaginate(req: Request, res: Response): Promise<void> {
     const filter: IUserFilter = _.pick(req.query, ["name", "surname", "username", "email", "isEmailVerified"]) as IUserFilter;
-    const options: IPaginationOptions = _.pick(req.query, ["search", "sortBy", "limit", "page"]) as IPaginationOptions;
+    const options: IPaginationOptions = {
+      search: req.query.search,
+      sortBy: req.query.sortBy,
+      //@ts-ignore
+      limit:  parseInt(req.query.limit),
+      //@ts-ignore
+      page: parseInt(req.query.page)
+  }  as IPaginationOptions
 
     const data = await userService.findPaginate(filter, options);
 

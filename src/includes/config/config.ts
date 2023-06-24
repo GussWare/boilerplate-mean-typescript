@@ -52,6 +52,7 @@ export default {
     web: envVars.URL_WEB,
     api: envVars.URL_API
   },
+  base_url: envVars.BASE_URL,
   mongoose: {
     uri:envVars.MONGO_URI,
     options: {

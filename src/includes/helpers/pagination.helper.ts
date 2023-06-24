@@ -1,4 +1,5 @@
 import { IColumnSearch } from "../../types";
+import loggerHelper from "./logger.helper";
 
 class PaginationHelper {
     async search(search: string, columns: string[]): Promise<IColumnSearch[]> {
@@ -15,21 +16,29 @@ class PaginationHelper {
 
     async sortBy(sortBy: string): Promise<string> {
         if (!sortBy) {
-            return "createdAt";
+            return "createdAt:asc";
         }
 
-        const sortingCriteria = sortBy.split(",").map((sortOption) => {
-            const [key, order] = sortOption.split(":");
-            return (order === "desc" ? "-" : "") + key;
-        });
+        let sort:any = {};
 
-        const sort = sortingCriteria.join(" ");
+        const sortSplit = sortBy.split(",");
+
+        for (const iterator of sortSplit) {
+            const [key, order] = iterator.split(":");
+            sort[key] = (order === "desc") ? -1 : 1;
+        }
+
+        loggerHelper.debug("sorttt");
+        loggerHelper.debug(JSON.stringify(sort));
 
         return sort;
     }
 
     async skip(page: number, limit: number): Promise<number> {
-        const skip = (page - 1) * limit;
+        let skip = (page - 1) * limit;
+
+        loggerHelper.debug("skip");
+        loggerHelper.debug(skip);
 
         return skip;
     }

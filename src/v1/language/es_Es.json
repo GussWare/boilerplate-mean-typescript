@@ -9,5 +9,10 @@
 
     "AUTH_ERROR_PLEASE_AUTHENTICATE":"Por favor, inicia sesión.",
     "AUTH_ERROR_PASSWORD_RESET_FAILED":"Error al restablecer la contraseña.",
-    "AUTH_ERROR_EMAIL_VERIFICATION_FAILED":"La verificación del correo electrónico ha fallado."
+    "AUTH_ERROR_EMAIL_VERIFICATION_FAILED":"La verificación del correo electrónico ha fallado.",
+
+    "ACTIONS_ERROR_MODULE_ID_REQUIRED": "El modulo id es requerido.",
+
+
+    "MODULE_NOT_FOUND" :"Modulo no encontrado."
 }

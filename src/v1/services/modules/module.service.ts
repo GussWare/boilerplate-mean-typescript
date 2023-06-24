@@ -1,8 +1,13 @@
 import { ICrudService, IPaginationOptions, IModule, IModuleFilter } from "../../../types"
-import ModuleModel from "../../models/api/module.model"
+import ModuleModel from "../../models/sistema/module.model"
+import * as constants from "../../../includes/config/constants"
+import actionService from "./action.service";
 import _ from "lodash"
+import ApiError from "../../../includes/library/api.error.library";
+import httpStatus from "http-status";
+import loggerHelper from "../../../includes/helpers/logger.helper";
 
-class ModuleService implements ICrudService<IModule> {
+class ModuleService implements ICrudService {
 
   //@ts-ignore
   async findPaginate(filter: IModuleFilter, options: IPaginationOptions): Promise<IPaginationResponse> {
@@ -17,30 +22,43 @@ class ModuleService implements ICrudService<IModule> {
   }
 
   async findById(id: string): Promise<IModule | null> {
-    const data = await ModuleModel.findOne({
+    const resource = await ModuleModel.findOne({
       _id: id, enabled: true
     });
-    return data;
+
+    return resource;
   }
 
   async findBySlug(slug: string): Promise<IModule | null> {
-    const data = await ModuleModel.findOne({
+    const resource = await ModuleModel.findOne({
       slug: slug, enabled: true
     });
 
-    return data;
+    return resource;
   }
 
   async create(data: IModule): Promise<IModule> {
     //@ts-ignore
     if (await ModuleModel.isModuleNameTaken(data.name)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_ModuleNAME_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_MODULE_NAME_ALREADY_TAKEN"));
     }
 
-    let Module = await ModuleModel.create(data);
+    // @ts-ignore
+    if (await ModuleModel.isModuleSlugTaken(data.slug)) {
+      //@ts-ignore
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_MODULE_SLUG_ALREADY_TAKEN"));
+    }
 
-    return Module;
+    let resource = await ModuleModel.create(data);
+
+    if (resource && data.actions) {
+      loggerHelper.debug("entra aqui ");
+      //@ts-ignore
+      await actionService.bulkSave(resource.id, data.actions);
+    }
+
+    return resource;
   }
 
   async update(id: string, data: IModule): Promise<IModule | null> {
@@ -48,37 +66,65 @@ class ModuleService implements ICrudService<IModule> {
 
     if (!ModuleDB) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("MODULE_NOT_FOUND"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_NOT_FOUND"));
     }
 
     //@ts-ignore
     if (await ModuleModel.isModuleNameTaken(data.name, id)) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_ModuleNAME_ALREADY_TAKEN"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_ModuleNAME_ALREADY_TAKEN"));
     }
 
     let dataUpdate = _.extend(ModuleDB, data);
-    let result = await ModuleModel.updateOne({_id: id}, dataUpdate);
+    let result = await ModuleModel.updateOne({ _id: id }, dataUpdate);
 
     if (!result.ok) {
       //@ts-ignore
-      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_UPDATE_Module"));
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_UPDATE_Module"));
     }
 
-    let Module = await this.findById(id);
+    let resource = await this.findById(id);
 
-    return Module;
+    if (resource && data.actions) {
+      await actionService.bulkSave(id, data.actions);
+    }
+
+    return resource;
   }
 
-  async enabled(_id: string): Promise<boolean> {
-    return true
+  async enabled(id: string): Promise<boolean> {
+    const resource = await this.findById(id);
+
+    if (!resource) {
+      //@ts-ignore
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+    }
+
+    await ModuleModel.updateOne({ _id: id }, { enabled: constants.SI });
+
+    return true;
   }
 
-  async disabled(_id: string): Promise<boolean> {
-    return true
+  async disabled(id: string): Promise<boolean> {
+    const resource = await this.findById(id);
+
+    if (!resource) {
+      //@ts-ignore
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+    }
+
+    await ModuleModel.updateOne({ _id: id }, { enabled: constants.NO });
+
+    return true;
   }
 
-  async bulk(_data: IModule[]): Promise<boolean> {
+  async bulk(data: IModule[]): Promise<boolean> {
+    const dataChunk = _.chunk(data, 1000);
+
+    for (const key in dataChunk) {
+      await ModuleModel.insertMany(dataChunk[key]);
+    }
+
     return true;
   }
 }

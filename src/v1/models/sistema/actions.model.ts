@@ -1,9 +1,10 @@
 import mongoose, { Model } from "mongoose";
-import { IPaginationOptions, IModule, IModuleFilter, IColumnSearch, IPaginationResponse } from "../../../types";
+import { IPaginationOptions, IAction, IActionFilter, IColumnSearch, IPaginationResponse, IActionModel, IActionDocument } from "../../../types";
 import ToJsonPlugin from "../plugins/tojson.plugin";
 import paginationHelper from "../../../includes/helpers/pagination.helper";
+import * as constants from "../../../includes/config/constants";
 
-const moduleSchema = new mongoose.Schema<IModule>(
+const actionSchema = new mongoose.Schema<IAction>(
     {
         name: {
             type: String,
@@ -15,20 +16,37 @@ const moduleSchema = new mongoose.Schema<IModule>(
             required: true,
             trim: true,
         },
+        guard: {
+            type: String,
+            enum: [
+                constants.GUARD_TYPE_API,
+                constants.GUARD_TYPE_WEB
+            ],
+            required: true,
+        },
         description: {
             type: String,
             required: true,
             trim: true,
         },
+        enabled: {
+            type: Boolean,
+            default: true,
+        },
+        module: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Module",
+            required: true,
+        }
     },
     {
         timestamps: true,
     }
 );
 
-moduleSchema.plugin(new ToJsonPlugin().apply);
+actionSchema.plugin(new ToJsonPlugin().apply);
 
-moduleSchema.statics.paginate = async function (filter: IModuleFilter, options: IPaginationOptions) {
+actionSchema.statics.paginate = async function (filter: IActionFilter, options: IPaginationOptions) {
     const {
         sortBy = 'createdAt',
         limit = 10,
@@ -41,6 +59,9 @@ moduleSchema.statics.paginate = async function (filter: IModuleFilter, options: 
     let searchFilter: Promise<IColumnSearch[]>;
 
     // Se realiza una validación previa para determinar si la propiedad existe en el objeto filter
+
+    advancedFilter.push({ module: filter.module });
+
     if ('name' in filter) {
         advancedFilter.push({ name: filter.name });
     }
@@ -49,11 +70,19 @@ moduleSchema.statics.paginate = async function (filter: IModuleFilter, options: 
         advancedFilter.push({ slug: filter.slug });
     }
 
+    if ('guard' in filter) {
+        advancedFilter.push({ guard: filter.guard });
+    }
+
+    if ('enabled' in filter) {
+        advancedFilter.push({ enabled: filter.enabled });
+    }
+
     const filterFind: any = advancedFilter.length > 0 ? { $and: advancedFilter } : {};
 
     // Si se especifica una búsqueda, se hace uso del helper de búsqueda
     if (search) {
-        const columns = ['name', 'slug'];
+        const columns = ['name', 'slug', 'guard', 'enabled'];
         searchFilter = paginationHelper.search(search, columns);
 
         if ((await searchFilter).length > 0) {
@@ -96,6 +125,11 @@ moduleSchema.statics.paginate = async function (filter: IModuleFilter, options: 
     });
 };
 
-const ModuleModel: Model<IModule> = mongoose.model("Module", moduleSchema);
+actionSchema.statics.isSlugTaken = async function (slug: string, excludeId: string) {
+    const resource = await this.findOne({ slug: slug, _id: { $ne: excludeId } });
+    return !!resource;
+}
 
-export default ModuleModel;
+const ActionModel: Model<IAction, IActionModel, IActionDocument> = mongoose.model("Action", actionSchema);
+
+export default ActionModel;

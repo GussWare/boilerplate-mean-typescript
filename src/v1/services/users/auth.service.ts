@@ -1,7 +1,7 @@
 import userService from "./user.service"
 import tokenService from "../token/token.service";
-import HttpStatus from "http-status";
-import TokenModel from "../../models/api/token.model";
+import httpStatus from "http-status";
+import TokenModel from "../../models/sistema/token.model";
 import ApiError from "../../../includes/library/api.error.library";
 import * as constants from "../../../includes/config/constants";
 import { IAccessToken, IUser, IUserDocument } from "../../../types";
@@ -13,7 +13,7 @@ class AuthService {
 
         if (!user || !user.enabled) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.UNAUTHORIZED, "USERS_ERROR_USER_NOT_FOUND");
+            throw new ApiError(httpStatus.UNAUTHORIZED, "USERS_ERROR_USER_NOT_FOUND");
         }
 
         //@ts-ignore
@@ -21,7 +21,7 @@ class AuthService {
 
         if (!isPassWordMatch) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.UNAUTHORIZED, global.polyglot.t("USERS_ERROR_INCORRECT_EMAIL_AND_OR_PASSWORD"));
+            throw new ApiError(httpStatus.UNAUTHORIZED, global.polyglot.t("USERS_ERROR_INCORRECT_EMAIL_AND_OR_PASSWORD"));
         }
 
         return user;
@@ -30,14 +30,13 @@ class AuthService {
     async logout(refreshToken: string): Promise<boolean> {
         const refreshTokenDoc = await TokenModel.findOne({
             token: refreshToken,
-            //@ts-ignore
-            type: constants.TOKEN.TYPE_REFRESH,
+            type: constants.TOKEN_TYPE_REFRESH,
             blacklisted: false,
         });
 
         if (!refreshTokenDoc) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.NOT_FOUND, global.polyglot.t("GENERAL_ERROR_NOT_FOUND"));
+            throw new ApiError(httpStatus.NOT_FOUND, global.polyglot.t("GENERAL_ERROR_NOT_FOUND"));
         }
 
         await refreshTokenDoc.remove();
@@ -47,12 +46,12 @@ class AuthService {
 
     async refreshAuth(refreshToken: string): Promise<IAccessToken> {
         //@ts-ignore
-        const refreshTokenDoc = await tokenService.verifyToken(refreshToken, constants.TOKEN.TYPE_REFRESH);
+        const refreshTokenDoc = await tokenService.verify(refreshToken, constants.TOKEN_TYPE_REFRESH);
         const user = await userService.findById(refreshTokenDoc.user);
 
         if (!user || !user.enabled) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
+            throw new ApiError(httpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
         }
 
         await refreshTokenDoc.remove();
@@ -71,7 +70,7 @@ class AuthService {
 
         if (!user || !user.enabled) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
+            throw new ApiError(httpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
         }
 
         const data = { password: newPassword };
@@ -93,7 +92,7 @@ class AuthService {
 
         if (!user || user.enabled) {
             //@ts-ignore
-            throw new ApiError(HttpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
+            throw new ApiError(httpStatus.UNAUTHORIZED, global.polyglot.t("AUTH_ERROR_PLEASE_AUTHENTICATE"));
         }
 
         await TokenModel.deleteMany({

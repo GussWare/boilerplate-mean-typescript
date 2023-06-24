@@ -1,5 +1,5 @@
 import { IAccessToken, IToken, ITokenPayload, IUser } from "../../../types";
-import TokenModel from "../../models/api/token.model";
+import TokenModel from "../../models/sistema/token.model";
 import config from "../../../includes/config/config";
 import * as constants from "../../../includes/config/constants";
 import ApiError from "../../../includes/library/api.error.library";
@@ -63,7 +63,7 @@ class TokenService {
             user: user.id,
             expires: refreshTokenExpires,
             blacklisted: false,
-            type: constants.TOKEN_TYPE_ACCESS
+            type: constants.TOKEN_TYPE_REFRESH
         };
 
         await this.create(token);

@@ -9,7 +9,7 @@ import mongoSanitize from 'express-mongo-sanitize'
 import createLocaleMiddleware from 'express-locale'
 import * as constants from './includes/config/constants'
 import config from './includes/config/config'
-import apiRoutes from "./v1/routes/api"
+import apiRoutes from "./v1/routes/sistema/index.router"
 import ApiError from "./includes/library/api.error.library"
 import ErrorMiddleware from "./includes/middelware/error.middleware";
 import jwtMiddleware from './v1/middlewares/jwt.middleware';

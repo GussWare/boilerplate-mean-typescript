@@ -1,5 +1,5 @@
 import express from 'express'
-import UserController from '../../controllers/api/users.controller'
+import UserController from '../../controllers/sistema/users.controller'
 
 const router = express.Router()
 

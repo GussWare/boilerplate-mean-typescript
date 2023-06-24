@@ -20,14 +20,14 @@ class AuthController {
     async logout(req: Request, res: Response): Promise<void> {
         await authService.logout(req.body.refreshToken);
 
-        res.status(httpStatus.NO_CONTENT).send();
+        res.status(httpStatus.OK).send();
     }
 
     async register(req: Request, res: Response): Promise<void> {
         const user = await userService.create(req.body);
         const tokens = await tokenService.generateTokenAuthentication(user);
 
-        res.status(httpStatus.OK).json({ user, tokens });
+        res.status(httpStatus.CREATED).json({ user, tokens });
     }
 
     async refreshToken(req: Request, res: Response): Promise<void> {
