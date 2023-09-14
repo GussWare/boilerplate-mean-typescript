@@ -13,10 +13,10 @@ class ModulesController implements IController {
             search: req.query.search,
             sortBy: req.query.sortBy,
             //@ts-ignore
-            limit:  parseInt(req.query.limit),
+            limit: parseInt(req.query.limit),
             //@ts-ignore
             page: parseInt(req.query.page)
-        }  as IPaginationOptions
+        } as IPaginationOptions
 
         const data = await moduleService.findPaginate(filter, options);
 
@@ -55,6 +55,14 @@ class ModulesController implements IController {
         const resource = await moduleService.update(id, data);
 
         res.status(httpStatus.OK).json({ module: resource });
+    }
+
+    async delete(req: Request, res: Response): Promise<void> {
+        const id = req.params.id;
+
+        await moduleService.delete(id);
+
+        res.status(httpStatus.NO_CONTENT).send();
     }
 
     async enabled(req: Request, res: Response): Promise<void> {

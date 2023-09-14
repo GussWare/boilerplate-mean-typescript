@@ -62,7 +62,7 @@ class ModuleService implements ICrudService {
   }
 
   async update(id: string, data: IModule): Promise<IModule | null> {
-    let ModuleDB = await this.findById(id);
+    const ModuleDB = await this.findById(id);
 
     if (!ModuleDB) {
       //@ts-ignore
@@ -75,21 +75,34 @@ class ModuleService implements ICrudService {
       throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_ModuleNAME_ALREADY_TAKEN"));
     }
 
-    let dataUpdate = _.extend(ModuleDB, data);
-    let result = await ModuleModel.updateOne({ _id: id }, dataUpdate);
+    const dataUpdate = _.extend(ModuleDB, data);
+    const result = await ModuleModel.updateOne({ _id: id }, dataUpdate);
 
     if (!result.ok) {
       //@ts-ignore
       throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("MODULE_ERROR_UPDATE_Module"));
     }
 
-    let resource = await this.findById(id);
+    const resource = await this.findById(id);
 
     if (resource && data.actions) {
       await actionService.bulkSave(id, data.actions);
     }
 
     return resource;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const resource = await this.findById(id);
+
+    if (!resource) {
+      //@ts-ignore
+      throw new ApiError(httpStatus.BAD_REQUEST, global.polyglot.t("USERS_NOT_FOUND"));
+    }
+
+    await ModuleModel.deleteOne({ _id: id });
+
+    return true;
   }
 
   async enabled(id: string): Promise<boolean> {

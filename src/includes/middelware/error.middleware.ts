@@ -7,7 +7,6 @@ import * as constants from "../config/constants"
 
 class ErrorMiddleware {
 
-
 	async errorConverter(err: Error, _req: Request, _res: Response, next: NextFunction) {
 		let error = err;
 
