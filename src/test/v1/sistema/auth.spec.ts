@@ -147,7 +147,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 email: faker.internet.email(firstName, lastName),
                 password: password
@@ -165,7 +165,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: "",
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 email: faker.internet.email(firstName, lastName),
                 password: password
@@ -182,7 +182,7 @@ describe("Pruebas del Modulo de autenticación", () => {
             let lastName = faker.name.lastName();
 
             const data = {
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 email: faker.internet.email(firstName, lastName),
                 password: password
@@ -193,14 +193,14 @@ describe("Pruebas del Modulo de autenticación", () => {
             expect(res.status).to.equal(httpStatus.BAD_REQUEST);
         });
 
-        it("Test 016 - Registro de usuario incorrecto - surname en blanco", async () => {
+        it("Test 016 - Registro de usuario incorrecto - last_name en blanco", async () => {
             let password = "123qweAA";
             let firstName = faker.name.firstName();
             let lastName = faker.name.lastName();
 
             const data = {
                 name: firstName,
-                surname: "",
+                last_name: "",
                 username: faker.internet.userName(firstName, lastName),
                 email: faker.internet.email(firstName, lastName),
                 password: password
@@ -211,7 +211,7 @@ describe("Pruebas del Modulo de autenticación", () => {
             expect(res.status).to.equal(httpStatus.BAD_REQUEST);
         });
 
-        it("Test 017 - Registro de usuario incorrecto - surname undefined", async () => {
+        it("Test 017 - Registro de usuario incorrecto - last_name undefined", async () => {
             let password = "123qweAA";
             let firstName = faker.name.firstName();
             let lastName = faker.name.lastName();
@@ -235,7 +235,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 username: "",
                 email: faker.internet.email(firstName, lastName),
                 password: password
@@ -253,7 +253,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 email: faker.internet.email(firstName, lastName),
                 password: password
             };
@@ -270,7 +270,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 email: "",
                 password: password
@@ -288,7 +288,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 password: password
             };
@@ -305,7 +305,7 @@ describe("Pruebas del Modulo de autenticación", () => {
 
             const data = {
                 name: firstName,
-                surname: lastName,
+                last_name: lastName,
                 username: faker.internet.userName(firstName, lastName),
                 email: "email_no_valido",
                 password: password

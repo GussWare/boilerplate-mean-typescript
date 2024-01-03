@@ -1,6 +1,6 @@
 import {Request, Response} from "express"
 import HttpStatus from "http-status";
-import FakerService from "../../services/faker/FakerService"
+import FakerService from "../../services/system/faker/FakerService"
 
 class TestController {
 

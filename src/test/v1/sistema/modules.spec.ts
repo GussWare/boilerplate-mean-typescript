@@ -15,7 +15,7 @@ describe("Pruebas del Modulo de Modules", () => {
             const data = {
                 page: 1,
                 limit: 20,
-                sortBy: "asc"
+                sort_by: "asc"
             }
 
             const res = await request(app).get(uri).query(data);
@@ -32,7 +32,7 @@ describe("Pruebas del Modulo de Modules", () => {
             const data = {
                 page: 1,
                 limit: 20,
-                sortBy: "name:asc"
+                sort_by: "name:asc"
             }
 
             const res = await request(app).get(uri).query(data);

@@ -1,12 +1,14 @@
 {
     "GENERAL_ERROR_NOT_FOUND": "Registro No encontrado.",
     "GENERAL_ERROR_API_NOT_FOUND": "Api no encontrada.",
+
     "USERS_ERROR_EMAIL_ALREADY_TAKEN": "Correo electrónico ya tomado.",
-    "USERS_ERROR_USER_NOT_FOUND": "Usuario no encontrado.",
-    "USERS_ERROR_INCORRECT_EMAIL_AND_OR_PASSWORD": "Correo electrónico y/o contraseña incorrectos.",
+
+    "AUTH_ERROR_INCORRECT_EMAIL_AND_OR_PASSWORD": "Correo electrónico y/o contraseña incorrectos.",
     "AUTH_ERROR_PLEASE_AUTHENTICATE": "Por favor, inicia sesión.",
     "AUTH_ERROR_PASSWORD_RESET_FAILED": "Error al restablecer la contraseña.",
     "AUTH_ERROR_EMAIL_VERIFICATION_FAILED": "La verificación del correo electrónico ha fallado.",
+    
     "ACTIONS_ERROR_MODULE_ID_REQUIRED": "El modulo id es requerido.",
     "MODULE_ERROR_DISABLED": "El modulo esta deshabilitado. No puede completar esta acción.",
     "MODULE_NOT_FOUND": "Modulo no encontrado."

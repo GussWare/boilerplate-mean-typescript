@@ -1,32 +1,39 @@
-import winston from 'winston'
-import config from '../config/config'
-import * as constants from '../config/constants'
-
-const enumerateErrorFormat = winston.format((info) => {
-  if (info instanceof Error) {
-    Object.assign(info, { message: info.stack })
-  }
-  return info
-})
-
-const level = config.env === constants.NODE_ENV_DEVELOPER ? 'debug' : 'info'
-const wistonFormatColorize = winston.format.colorize()
-const wistonFormatUncolorize = winston.format.uncolorize()
+import path from 'path';
+import winston from 'winston';
 
 const loggerHelper = winston.createLogger({
-  level: level,
-  format: winston.format.combine(enumerateErrorFormat(),
-    config.env === constants.NODE_ENV_DEVELOPER
-      ? wistonFormatColorize
-      : wistonFormatUncolorize,
-    winston.format.splat(),
-    winston.format.printf(({ level, message }) => `${level}: ${message}`)
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss'
+    }),
+    winston.format.errors({ stack: true }),
+    winston.format.splat()
   ),
+  defaultMeta: { service: 'your-service-name' },
   transports: [
     new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.printf(({ level, message, timestamp }) => {
+          return `${timestamp} [${level}]: ${message}`;
+        })
+      ),
       stderrLevels: ['error']
+    }),
+    new winston.transports.File({ 
+      filename: path.join(__dirname, '../../app.log'),
+      format: winston.format.combine(
+        winston.format.timestamp({
+          format: 'YYYY-MM-DD HH:mm:ss'
+        }),
+        winston.format.json(),
+        winston.format.printf(({ level, message, timestamp }) => {
+          return `${timestamp} [${level}]: ${message}`;
+        })
+      )
     })
   ]
-})
+});
 
-export default loggerHelper
+export default loggerHelper;

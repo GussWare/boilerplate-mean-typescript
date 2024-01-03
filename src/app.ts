@@ -9,7 +9,7 @@ import mongoSanitize from 'express-mongo-sanitize'
 import createLocaleMiddleware from 'express-locale'
 import * as constants from './includes/config/constants'
 import config from './includes/config/config'
-import apiRoutes from "./v1/routes/sistema/index.router"
+import apiRoutes from "./v1/routes/system/index.router"
 import ApiError from "./includes/library/api.error.library"
 import ErrorMiddleware from "./includes/middelware/error.middleware";
 import jwtMiddleware from './v1/middlewares/jwt.middleware';
@@ -46,7 +46,7 @@ app.use("/assets", express.static("../assets", { redirect: false }));
 
 // error 404
 app.use((_, __, next: NextFunction) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'GENERAL_ERROR_API_NOT_FOUND'));
+  next(new ApiError(httpStatus.NOT_FOUND,  global.polyglot.t('GENERAL_ERROR_API_NOT_FOUND')));
 });
 
 // convert error to ApiError, if needed

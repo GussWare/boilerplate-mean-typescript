@@ -1,0 +1,54 @@
+2024-01-02 19:27:22 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 19:28:03 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 19:28:10 [error]: Error: Api no encontrada.
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\app.ts:49:8
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at initialize (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\passport\lib\middleware\initialize.js:98:5)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at Immediate.next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Immediate._onImmediate (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:646:15)
+    at processImmediate (node:internal/timers:478:21)
+2024-01-02 19:53:36 [error]: TypeError: Cannot read properties of undefined (reading 'split')
+    at Function.<anonymous> (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:51:39)
+    at Generator.next (<anonymous>)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:4:12)
+    at Function.sort_by (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:49:16)
+    at Function.<anonymous> (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:81:65)
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-01-02 19:54:48 [error]: Error: Api no encontrada.
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\app.ts:49:8
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at initialize (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\passport\lib\middleware\initialize.js:98:5)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at Immediate.next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Immediate._onImmediate (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:646:15)
+    at processImmediate (node:internal/timers:478:21)
+2024-01-02 19:55:11 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 19:56:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:23:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:29:30 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:29:40 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:29:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:30:23 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:31:10 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:31:26 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:31:43 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-02 20:32:02 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000

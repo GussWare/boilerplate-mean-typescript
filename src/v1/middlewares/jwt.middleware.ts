@@ -1,5 +1,5 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
-import userService from '../services/users/user.service';
+import UserService from '../services/system/users/user.service';
 import config from '../../includes/config/config';
 import * as constants from '../../includes/config/constants';
 import { Request } from 'express';
@@ -15,12 +15,12 @@ class JwtMiddleware {
     };
   }
 
-  async verify(payload: IPayloadJWT, done:any) {
+  async verify(payload: IPayloadJWT, done: any) {
     try {
       if (payload.type !== constants.TOKEN_TYPE_ACCESS) {
         throw new Error('Invalid token type');
       }
-      const user = await userService.findById(payload.sub);
+      const user = await UserService.findById(payload.sub);
       if (!user) {
         return done(null, false);
       }

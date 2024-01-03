@@ -4,11 +4,12 @@ import mongoose from "mongoose"
 import httpStatus from "http-status";
 import config from "../config/config"
 import * as constants from "../config/constants"
+import loggerHelper from "../helpers/logger.helper";
+import JsonHelper from "../helpers/json.helper";
 
 class ErrorMiddleware {
 
-	async errorConverter(err: Error, _req: Request, _res: Response, next: NextFunction) {
-		let error = err;
+	async errorConverter(error: Error, _req: Request, _res: Response, next: NextFunction) {
 
 		if (!(error instanceof ApiError)) {
 			let statusCode = null;
@@ -26,8 +27,8 @@ class ErrorMiddleware {
 			}
 
 			const message = error.message || httpStatus[statusCode];
-			//@ts-ignore
-			error = new ApiError(statusCode, message, false, err.stack);
+			
+			error = new ApiError(statusCode, message, false, error.stack);
 		}
 		next(error);
 	}
@@ -37,20 +38,16 @@ class ErrorMiddleware {
 		let { statusCode, message } = err;
 
 		if (config.env === constants.NODE_ENV_PRODUCTION && !err.isOperational) {
-			statusCode = httpStatus.INTERNAL_SERVER_ERROR;
 			message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
 		}
 
 		res.locals.errorMessage = err.message;
+		
+		const isJsonValid = JsonHelper.isJsonValid(message);
+		const response = (isJsonValid) ? JSON.parse(message) : { detail:  message };
 
-		const response = {
-			code: statusCode,
-			message,
-			...(config.env === constants.NODE_ENV_DEVELOPER && { stack: err.stack }),
-		};
-
-		if (config.env === constants.NODE_ENV_DEVELOPER) {
-
+		if (config.env === constants.NODE_ENV_DEVELOPER && err.stack) {
+			loggerHelper.error(err.stack);
 		}
 
 		res.status(statusCode).send(response);

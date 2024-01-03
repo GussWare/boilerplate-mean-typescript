@@ -1,5 +1,5 @@
 import { ObjectId, Document, Model } from 'mongoose';
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 
 declare namespace NodeJS {
 	interface Global {
@@ -10,14 +10,14 @@ declare namespace NodeJS {
 export interface IPaginationResponse {
 	results: any[],
 	page: number,
-	limit: number,
-	totalPages: number,
-	totalResults: number
+	page_size: number,
+	num_pages: number,
+	count: number
 }
 
 export interface IPaginationOptions {
-	sortBy?: string;
-	limit: number;
+	sort_by?: string;
+	page_size: number;
 	page: number;
 	populate?: string;
 	search?: string;
@@ -38,43 +38,41 @@ export interface Img {
 
 export interface IUser {
 	id?: string;
-	name?: string;
-	surname?: string;
+	first_name?: string;
+	last_name?: string;
 	username?: string;
 	picture?: Img;
 	email?: string;
 	password?: string;
-	role?: string;
-	isEmailVerified?: boolean;
-	enabled?: boolean;
+	is_email_verified?: boolean;
+	is_active?: boolean;
 }
 
 export interface IUserDocument extends Document {
-	name: string;
-	surname?: string;
+	first_name: string;
+	last_name?: string;
 	username: string;
 	picture?: Img;
 	email: string;
 	password: string;
-	role: string;
-	isEmailVerified: boolean;
-	enabled: boolean;
+	is_email_verified: boolean;
+	is_active: boolean;
 }
 
-// Definición de la interfaz para el modelo de usuario
+// Definition of the interface for the user model
 export interface IUserModel extends Model<IUser> {
 	static isEmailTaken(email: string): Promise<boolean>;
 	static isUsernameTaken(username: string): Promise<boolean>;
 }
 
 export interface IUserFilter {
-	name?: string;
-	surname?: string;
+	first_name?: string;
+	last_name?: string;
 	username?: string;
 	email?: string;
 	role?: string;
-	isEmailVerified?: boolean;
-	enabled?: boolean;
+	is_email_verified?: boolean;
+	is_active?: boolean;
 }
 
 export interface IPayloadJWT {
@@ -115,70 +113,56 @@ export interface IAccessToken {
 	refresh: ITokenExpiresToken;
 }
 
-export interface IModule {
-	id?:string;
-	name?: string;
-	slug?: string;
-	guard?: string;
-	description?: string;
-	actions?: IAction[];
-}
-
-export interface IModuleFilter {
-	name?: string;
-	slug?: string;
-	guard?: string;
-	description?: string;
-}
-
-export interface IModuleModel extends Model<IModule> {
-	static isNameTaken(name: string): Promise<boolean>;
-	static isSlugTaken(slug: string): Promise<boolean>;
-}
-
-export interface IAction {
-	id?:srting;
-	name?: string;
-	slug?: string;
-	guard?: string;
-	description?: string;
-	module?: string;
-}
-
-export interface IActionFilter {
-	name?: string;
-	slug?: string;
-	guard?: string;
-	module: string;
-	enabled?: boolean;
-}
-
-export interface IActionDocument extends Document {
-	name?: string;
-	slug?: string;
-	guard?: string;
-	description?: string;
-	module?: string;
-}
-
-export interface IActionModel extends Model<IAction> {
-	static isSlugTaken(slug: string): Promise<boolean>;
-}
-
-export interface IRole {
+export interface IGroup {
 	name: string;
-	slug: string;
-	guard: string;
+	codename: string;
 	description: string;
+	permissions?: string[];
 }
 
-export interface IRoleFilter {
+export interface IGroupDocument extends Document {
 	name: string;
-	slug: string;
-	guard: string;
+	codename: string;
+	description: string;
+	permissions?: string[];
 }
 
-export interface IBitacora {
+export interface IGroupModel extends Model<IGroup> {
+	paginate(filter: IGroupFilter, options: IPaginationOptions): Promise<IPaginationResponse>;
+	isNameTaken(name: string): Promise<boolean>;
+	isCodeNameTaken(codename: string): Promise<boolean>;
+}
+
+export interface IGroupFilter {
+	name: string;
+	codename: string;
+}
+
+export interface IPermission {
+	id?: srting;
+	name?: string;
+	codename?: string;
+	description?: string;
+}
+
+export interface IPermissionFilter {
+	name?: string;
+	codename?: string;
+}
+
+export interface IPermissionDocument extends Document {
+	name?: string;
+	codename?: string;
+	guard?: string;
+	description?: string;
+	module?: string;
+}
+
+export interface IPermissionModel extends Model<IPermission> {
+	static iscodenameTaken(codename: string): Promise<boolean>;
+}
+
+export interface ILogSystem {
 	user: ObjectId;
 	module: string;
 	action: string;
@@ -186,7 +170,7 @@ export interface IBitacora {
 	date: Date;
 }
 
-export interface IBitacoraFilter {
+export interface ILogSystemFilter {
 	user: ObjectId;
 	module: string;
 	action: string;
@@ -195,14 +179,18 @@ export interface IBitacoraFilter {
 }
 
 export interface IController {
-	findPaginate?(req: Request, res: Response): Promise<void>;
+	findPagination?(req: Request, res: Response): Promise<void>;
 	findAll?(req: Request, res: Response): Promise<void>;
 	findById?(req: Request, res: Response): Promise<void>;
 	create?(req: Request, res: Response): Promise<void>;
 	update?(req: Request, res: Response): Promise<void>;
 	enabled?(req: Request, res: Response): Promise<void>;
 	disabled?(req: Request, res: Response): Promise<void>;
-	bulk?(req: Request, res: Response): Promise<void>;
+	delete?(req: Request, res: Response): Promise<void>;
+	bulkCreate?(req: Request, res: Response): Promise<void>;
+	bulkDelete?(req: Request, res: Response): Promise<void>;
+	bulkEnabled?(req: Request, res: Response): Promise<void>;
+	bulkDisabled?(req: Request, res: Response): Promise<void>;
 }
 
 export interface ICrudService {
@@ -213,7 +201,11 @@ export interface ICrudService {
 	update?(id: string, data: T): Promise<T | null>;
 	enabled?(id: string): Promise<boolean>;
 	disabled?(id: string): Promise<boolean>;
-	bulk?(data: T[]): Promise<boolean>;
+	bulkCreate?(data: T[]): Promise<boolean>;
+	bulkDelete?(ids: string[]): Promise<boolean>;
+	bulkEnabled?(ids: string[]): Promise<boolean>;
+	bulkDisabled?(ids: string[]): Promise<boolean>;
+	clear?(): Promise<boolean>;
 }
 
 export interface ITokenPayload {
@@ -224,12 +216,12 @@ export interface ITokenPayload {
 }
 
 export interface IAuthLogin {
-	email:string;
-	password:string;
+	email: string;
+	password: string;
 }
 
 export interface IAuthRefreshToken {
-	refreshToken:string;
+	refreshToken: string;
 }
 
 export interface IAuthToken {
@@ -247,17 +239,23 @@ export interface IFaker {
 }
 
 export interface ILanguage {
-	name?:string;
-	slug?:string;
-	description?:string;
-	default?:string;
-	enabled?:string	
+	name?: string;
+	codename?: string;
+	description?: string;
+	default?: string;
+	is_active?: string
 }
 
 export interface ILanguageFilter {
-	name?:string;
-	slug?:string;
-	default?:string;
-	enabled?:string	
+	name?: string;
+	codename?: string;
+	default?: string;
+	is_active?: string
 }
+
+type ValidSchema = {
+    params?: Schema;
+    query?: Schema;
+    body?: Schema;
+};
 
