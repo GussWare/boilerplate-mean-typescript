@@ -1,7 +1,7 @@
 import mongoose, {Model} from "mongoose";
-import { IPaginationOptions, ILogSystem, ILogSystemFilter, IColumnSearch, IPaginationResponse } from "../../../../types";
+import { ILogSystem } from "../../../../types";
 import ToJsonPlugin from "mongoose-plugin-tojson";
-import paginationHelper from "../../../../includes/helpers/pagination.helper";
+import ModelPaginationPlugin from "mongoose-plugin-model-paginate";
 
 const logsystemSchema = new mongoose.Schema<ILogSystem>(
     {
@@ -27,87 +27,16 @@ const logsystemSchema = new mongoose.Schema<ILogSystem>(
 		},
 	},
     {
-        timestamps: true,
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
 );
 
 logsystemSchema.plugin(ToJsonPlugin);
+logsystemSchema.plugin(ModelPaginationPlugin, { 
+    fieldsForFilter: ["user", "module", "action"], 
+    fieldsForSearch: ["user", "module", "action"] 
+});
 
-logsystemSchema.statics.paginate = async function (filter: ILogSystemFilter, options: IPaginationOptions) {
-    const {
-        sort_by = 'createdAt',
-        page_size = 10,
-        page = 1,
-        populate,
-        search,
-    } = options;
-
-    const advancedFilter = [];
-    let searchFilter: Promise<IColumnSearch[]>;
-
-    // Se realiza una validación previa para determinar si la propiedad existe en el objeto filter
-    if ('user' in filter) {
-        advancedFilter.push({ user: filter.user });
-    }
-
-    if ('module' in filter) {
-        advancedFilter.push({ module: filter.module });
-    }
-
-    if ('action' in filter) {
-        advancedFilter.push({ action: filter.action });
-    }
-
-    if ('startData' in filter && 'endData' in filter) {
-
-    }
-
-    const filterFind: any = advancedFilter.length > 0 ? { $and: advancedFilter } : {};
-
-    // Si se especifica una búsqueda, se hace uso del helper de búsqueda
-    if (search) {
-        const columns = ['name', 'codename', 'guard'];
-        searchFilter = paginationHelper.search(search, columns);
-
-        if ((await searchFilter).length > 0) {
-            filterFind.$or = searchFilter;
-        }
-    }
-
-    // Se utiliza Promise.all para ejecutar ambas promesas en paralelo
-    const countPromise = this.countDocuments(filterFind).exec();
-    let docsPromise = this.find(filterFind)
-        .sort(paginationHelper.sort_by(sort_by))
-        .skip(paginationHelper.skip(page, page_size))
-        .limit(page_size);
-
-    if (populate) {
-        populate.split(",").forEach((populateOption: any) => {
-            docsPromise = docsPromise.populate(
-                populateOption
-                    .split(".")
-                    .reverse()
-                    .reduce((a: any, b: any) => ({ path: b, populate: a }))
-            );
-        });
-    }
-
-    docsPromise = docsPromise.exec();
-
-    return Promise.all([countPromise, docsPromise]).then((values) => {
-        const [totalResults, results] = values;
-        const totalPages = Math.ceil(totalResults / page_size);
-        const result: IPaginationResponse = {
-            results,
-            page,
-            page_size: page_size,
-            num_pages: totalPages,
-            count: totalResults,
-        };
-
-        return Promise.resolve(result);
-    });
-};
 
 const LogSystemModel: Model<ILogSystem> = mongoose.model("LogSystem", logsystemSchema);
 

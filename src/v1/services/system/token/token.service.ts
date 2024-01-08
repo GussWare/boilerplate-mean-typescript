@@ -48,7 +48,7 @@ class TokenService {
     }
 
     async generateTokenAuthentication(user: IUser): Promise<IAccessToken> {
-        if (!user || !user.id) {
+        if (!user) {
             throw new ApiError(HttpStatus.NOT_FOUND, "User not Found");
         }
 

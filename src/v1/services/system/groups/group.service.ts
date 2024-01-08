@@ -1,5 +1,6 @@
-import { ICrudService, IPaginationOptions, IGroup, IGroupFilter, IPaginationResponse } from "../../../../types"
+import { ICrudService, IPaginationOptions, IGroup, IGroupFilter, IPaginationResponse, IPermission } from "../../../../types"
 import GroupModel from "../../../db/models/system/group.model"
+import GroupPermissionModel from "../../../db/models/system/groupPermission.model"
 import ApiError from "../../../../includes/library/api.error.library";
 import _ from "lodash"
 import HttpStatus from "http-status";
@@ -18,11 +19,34 @@ class GroupService implements ICrudService {
   }
 
   async findById(id: string): Promise<IGroup | null> {
-    const resource = await GroupModel.findOne({
+    let resource = await GroupModel.findOne({
       _id: id
     });
 
-    return resource;
+    const result = await GroupPermissionModel.find({
+      group: id
+    }).populate("permission");
+
+    const permissions: IPermission[] = _.map(result, (item) => {
+      const permission: IPermission = {
+        id: item.permission._id,
+        name: item.permission.name,
+        codename: item.permission.codename,
+        description: item.permission.description
+      };
+
+      return permission;
+    });
+
+    const group:IGroup = {
+      id: resource._id,
+      name: resource.name,
+      codename: resource.codename,
+      description: resource.description,
+      permissions: permissions
+    };
+     
+    return group;
   }
 
   async findByCodeName(codename: string): Promise<IGroup | null> {
@@ -30,7 +54,32 @@ class GroupService implements ICrudService {
       codename: codename
     });
 
-    return resource;
+    if(!resource) return null;
+
+    const result = await GroupPermissionModel.find({
+      group: resource.id
+    }).populate("permission");
+
+    const permissions: IPermission[] = _.map(result, (item) => {
+      const permission: IPermission = {
+        id: item.permission.id,
+        name: item.permission.name,
+        codename: item.permission.codename,
+        description: item.permission.description
+      };
+
+      return permission;
+    });
+
+    const group:IGroup = {
+      id: resource._id,
+      name: resource.name,
+      codename: resource.codename,
+      description: resource.description,
+      permissions: permissions
+    };
+     
+    return group;
   }
 
   async create(data: IGroup): Promise<IGroup> {
@@ -102,6 +151,26 @@ class GroupService implements ICrudService {
 
   async bulkDelete(ids: string[]): Promise<boolean> {
     await GroupModel.deleteMany({ _id: { $in: ids } });
+
+    return true;
+  }
+
+  async groupPermissions(groupId: string, permissions: string[]): Promise<any> {
+    const group = await this.findById(groupId);
+
+    if (!group) {
+      throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("GROUP_NOT_FOUND"));
+    }
+
+    const groupPermissions = _.map(permissions, (permission) => {
+      return {
+        group: groupId,
+        permission: permission
+      }
+    });
+
+    await GroupPermissionModel.deleteMany({ group: groupId });
+    await GroupPermissionModel.insertMany(groupPermissions);
 
     return true;
   }

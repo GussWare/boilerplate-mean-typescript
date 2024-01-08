@@ -1,44 +1,26 @@
 import mongoose, { Model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs"
-import { Img, IUser, IUserModel, IUserDocument } from "../../../../types";
-import ToJsonPlugin from "mongoose-plugin-tojson";
+import { IUser, IUserModel, IUserDocument } from "../../../../types";
+import ToJsonPlugin from "mongoose-plugin-tojson"
 import ModelPaginatePlugin from "mongoose-plugin-model-paginate"
-
-const imgSchema = new mongoose.Schema<Img>({
-    name: {
-        type: String,
-        required: true,
-        default: "no-img.png"
-    },
-    imgUrl: {
-        type: String,
-        required: true,
-        default: "no-img.png"
-    },
-    thumbnailUrl: {
-        type: String,
-        required: false,
-        default: "no-img.png"
-    },
-});
 
 const userSchema = new mongoose.Schema<IUser>(
     {
-        firs_name: {
+        first_name: {
             type: String,
             required: true,
         },
         last_name: {
             type: String,
             required: false,
+            default: null
         },
         username: {
             type: String,
             required: true,
             trim: true,
         },
-        picture: imgSchema,
         email: {
             type: String,
             required: true,
@@ -65,17 +47,21 @@ const userSchema = new mongoose.Schema<IUser>(
         is_active: {
             type: Boolean,
             default: true,
+        },
+        is_superadmin: {
+            type: Boolean,
+            default: false,
         }
     },
     {
-        timestamps: true,
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
 );
 
 userSchema.plugin(ToJsonPlugin);
 userSchema.plugin(ModelPaginatePlugin, {
-    fieldsForFilter: ["firs_name", "last_name", "username", "email", "is_email_verified", "is_active"], 
-    fieldsForSearch: ["firs_name", "last_name", "username", "email"] 
+    fieldsForFilter: [], 
+    fieldsForSearch: [] 
 });
 
 userSchema.statics.isEmailTaken = async function (email: string, excludeUserId?: mongoose.Types.ObjectId) {

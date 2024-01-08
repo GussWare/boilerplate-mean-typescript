@@ -32,7 +32,7 @@ const languageSchema = new mongoose.Schema<ILanguage>(
 		},
 	},
     {
-        timestamps: true,
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
 );
 

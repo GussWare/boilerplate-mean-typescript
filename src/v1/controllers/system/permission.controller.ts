@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 class PermissionController implements IController {
   async findPagination(req: Request, res: Response): Promise<void> {
-    const { search = '', sort_by = 'createdAt:asc', page_size = '10', page = '1' } = req.query;
+    const { search = '', sort_by = 'created_at:asc', page_size = '10', page = '1' } = req.query;
     const filter: IPermissionFilter = _.pick(req.query, ['name', 'codename']) as IPermissionFilter;
     const options: IPaginationOptions = {
       search: search as string,

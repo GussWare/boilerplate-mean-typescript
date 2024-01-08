@@ -1,54 +1,113 @@
-2024-01-02 19:27:22 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 19:28:03 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 19:28:10 [error]: Error: Api no encontrada.
-    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\app.ts:49:8
+2024-01-06 21:47:33 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-06 21:52:05 [error]: Cast to ObjectId failed for value "pagination" (type string) at path "_id" for model "User"
+2024-01-06 21:53:04 [info]: Server closed
+2024-01-06 21:53:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-06 21:56:33 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-06 21:57:16 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-06 21:59:54 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-06 22:00:07 [error]: Cast to ObjectId failed for value "pagination" (type string) at path "_id" for model "User"
+2024-01-07 11:21:00 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 11:21:24 [error]: Cast to ObjectId failed for value "pagination" (type string) at path "_id" for model "User"
+2024-01-07 11:22:07 [info]: Server closed
+2024-01-07 11:23:17 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 12:17:40 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 12:19:01 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 12:19:10 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:00:36 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:07:24 [error]: Error: {"is_superuser":["\"is_superuser\" is not allowed"]}
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\includes\middelware\validation.middleware.ts:29:25
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:47:12)
     at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
     at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
     at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
     at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
     at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
-    at initialize (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\passport\lib\middleware\initialize.js:98:5)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+2024-01-07 13:08:51 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:09:15 [error]: Error: {"re_password":["\"re_password\" is required"]}
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\includes\middelware\validation.middleware.ts:29:25
     at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
-    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
-    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:284:15
     at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
-    at Immediate.next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
-    at Immediate._onImmediate (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:646:15)
-    at processImmediate (node:internal/timers:478:21)
-2024-01-02 19:53:36 [error]: TypeError: Cannot read properties of undefined (reading 'split')
-    at Function.<anonymous> (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:51:39)
-    at Generator.next (<anonymous>)
-    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:8:71
-    at new Promise (<anonymous>)
-    at __awaiter (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:4:12)
-    at Function.sort_by (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:49:16)
-    at Function.<anonymous> (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:81:65)
-    at Generator.next (<anonymous>)
-    at fulfilled (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\mongoose-plugin-model-paginate\dist\MongooseModelPaginatePlugin.js:5:58)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-2024-01-02 19:54:48 [error]: Error: Api no encontrada.
-    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\app.ts:49:8
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:47:12)
     at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
     at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
     at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
     at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
     at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
-    at initialize (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\passport\lib\middleware\initialize.js:98:5)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+2024-01-07 13:09:28 [error]: Error: {"re_password":["\"re_password\" must be [ref:password]"]}
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\includes\middelware\validation.middleware.ts:29:25
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:47:12)
     at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
     at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
     at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
     at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)
-    at Immediate.next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
-    at Immediate._onImmediate (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:646:15)
-    at processImmediate (node:internal/timers:478:21)
-2024-01-02 19:55:11 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 19:56:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:23:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:29:30 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:29:40 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:29:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:30:23 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:31:10 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:31:26 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:31:43 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
-2024-01-02 20:32:02 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+2024-01-07 13:11:45 [error]: Correo electrónico ya tomado.
+2024-01-07 13:12:10 [info]: Server closed
+2024-01-07 13:18:14 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:34:35 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:34:45 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:34:56 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:36:52 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:38:40 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 13:38:45 [error]: Correo electrónico ya tomado.
+2024-01-07 13:38:49 [info]: Server closed
+2024-01-07 13:39:24 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:14:48 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:15:20 [error]: Cast to ObjectId failed for value "pagination" (type string) at path "_id" for model "User"
+2024-01-07 14:20:48 [info]: Server closed
+2024-01-07 14:34:53 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:35:11 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:35:31 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:37:25 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 14:37:38 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 15:06:27 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 15:20:29 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 15:35:09 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 15:35:31 [error]: Cast to ObjectId failed for value "paginationn" (type string) at path "_id" for model "User"
+2024-01-07 15:37:15 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 15:37:22 [error]: Cast to ObjectId failed for value "paginationn" (type string) at path "_id" for model "User"
+2024-01-07 18:51:28 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 19:18:05 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 19:18:54 [info]: SERVIDOR CORRIENDO EN EL PUERTO 4000
+2024-01-07 19:19:02 [error]: Error: {"id":["\"\"id\"\" must be a valid mongo id"]}
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\src\includes\middelware\validation.middleware.ts:29:25
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:284:15
+    at param (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:365:14)
+    at param (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:376:14)
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:421:3)
+    at next (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:175:3)
+    at router (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:47:12)
+    at Layer.handle [as handle_request] (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:328:13)
+    at C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (C:\Data\NODE-PROYECTS\boilerplate-mean-typescript\node_modules\express\lib\router\index.js:346:12)

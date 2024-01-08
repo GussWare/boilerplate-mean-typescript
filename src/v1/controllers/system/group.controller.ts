@@ -15,7 +15,7 @@ class GroupController implements IController {
      * @returns A promise that resolves to void.
      */
     async findPagination(req: Request, res: Response): Promise<void> {
-        const { search = "",  sort_by = "createdAt:asc",  page_size = "10", page = "1" } = req.query;
+        const { search = "",  sort_by = "created_at:asc",  page_size = "10", page = "1" } = req.query;
         const filter: IGroupFilter = _.pick(req.query, ["name", "codename"]) as IGroupFilter;
         const options: IPaginationOptions = {
             search: search as string,
@@ -134,6 +134,14 @@ class GroupController implements IController {
         await GroupService.bulkDelete(ids);
 
         res.status(HttpStatus.NO_CONTENT).send();
+    }
+
+    async groupPermissions(req: Request, res: Response): Promise<void> {
+        const groupId = req.body.groupId;
+        const permissions = req.body.permissions;
+        const response = await GroupService.groupPermissions(groupId, permissions);
+
+        res.status(HttpStatus.OK).json(response);
     }
 }
 

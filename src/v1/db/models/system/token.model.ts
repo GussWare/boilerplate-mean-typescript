@@ -35,7 +35,7 @@ const tokenShema = new mongoose.Schema<IToken>(
 		},
 	},
     {
-        timestamps: true,
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
     }
 );
 

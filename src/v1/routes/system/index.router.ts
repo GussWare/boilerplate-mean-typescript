@@ -10,7 +10,7 @@ const router = express.Router()
 
 const defaultRoutes = [
   {
-    path: '/v1',
+    path: '/v1/users',
     route: userRoute
   },
   {

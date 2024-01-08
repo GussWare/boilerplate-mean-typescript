@@ -1,5 +1,5 @@
 import express from 'express'
-import GroupController from '../../controllers/sistema/group.controller'
+import GroupController from '../../controllers/system/group.controller'
 import catchAsyncHelper from '../../../includes/helpers/error.helper';
 import validateMiddleware from '../../../includes/middelware/validation.middleware';
 import { GroupCreateValidation, GroupByIdValidation, GroupUpdateValidation } from '../../validations/system/group/group.validation';

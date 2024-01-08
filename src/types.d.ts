@@ -70,7 +70,7 @@ export interface IUserFilter {
 	last_name?: string;
 	username?: string;
 	email?: string;
-	role?: string;
+	groups?: string[];
 	is_email_verified?: boolean;
 	is_active?: boolean;
 }
@@ -114,10 +114,11 @@ export interface IAccessToken {
 }
 
 export interface IGroup {
+	id?: string;
 	name: string;
 	codename: string;
 	description: string;
-	permissions?: string[];
+	permissions?: IPermission[];
 }
 
 export interface IGroupDocument extends Document {
@@ -151,6 +152,7 @@ export interface IPermissionFilter {
 }
 
 export interface IPermissionDocument extends Document {
+	_id?: string;
 	name?: string;
 	codename?: string;
 	guard?: string;
@@ -160,6 +162,11 @@ export interface IPermissionDocument extends Document {
 
 export interface IPermissionModel extends Model<IPermission> {
 	static iscodenameTaken(codename: string): Promise<boolean>;
+}
+
+export interface IGroupPermissionDocument extends Document {
+	group: string;
+	permission: IPermissionDocument;
 }
 
 export interface ILogSystem {
@@ -199,8 +206,6 @@ export interface ICrudService {
 	findById?(id: string): Promise<T | null>;
 	create?(data: T): Promise<T>;
 	update?(id: string, data: T): Promise<T | null>;
-	enabled?(id: string): Promise<boolean>;
-	disabled?(id: string): Promise<boolean>;
 	bulkCreate?(data: T[]): Promise<boolean>;
 	bulkDelete?(ids: string[]): Promise<boolean>;
 	bulkEnabled?(ids: string[]): Promise<boolean>;

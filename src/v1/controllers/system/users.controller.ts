@@ -7,8 +7,8 @@ import _ from 'lodash';
 
 class UserController implements IController {
   async findPagination(req: Request, res: Response): Promise<void> {
-    const { search = '', sort_by = 'createdAt:asc', page_size = '10', page = '1' } = req.query;
-    const filter: IUserFilter = _.pick(req.query, ['name', 'codename']) as IUserFilter;
+    const { search = '', sort_by = 'created_at:asc', page_size = '10', page = '1' } = req.query;
+    const filter: IUserFilter = _.pick(req.query, ['first_name', 'last_name', 'username', 'email']) as IUserFilter;
     const options: IPaginationOptions = {
       search: search as string,
       sort_by: sort_by as string,
@@ -51,6 +51,22 @@ class UserController implements IController {
     const resource = await UserService.update(id, data);
 
     res.status(HttpStatus.OK).json({ module: resource });
+  }
+
+  async enabled(req: Request, res: Response): Promise<void> {
+    const id = req.params.id;
+
+    await UserService.enabled(id);
+
+    res.status(HttpStatus.NO_CONTENT).send();
+  }
+
+  async disabled(req: Request, res: Response): Promise<void> {
+    const id = req.params.id;
+
+    await UserService.disabled(id);
+
+    res.status(HttpStatus.NO_CONTENT).send();
   }
 
   async delete(req: Request, res: Response): Promise<void> {

@@ -1,6 +1,6 @@
 import express from 'express'
 import catchAsyncHelper from '../../../includes/helpers/error.helper';
-import AuthController from '../../controllers/sistema/auth.controller'
+import AuthController from '../../controllers/system/auth.controller'
 import { forgotPasswordValidation, loginValidation, logoutValidation, refreshTokensValidation, registerValidation } from "../../validations/system/auth/auth.validation";
 
 const router = express.Router()

@@ -1,4 +1,4 @@
-import { ICrudService, IPaginationOptions, IUser, IUserDocument, IUserFilter } from "../../../../types"
+import { ICrudService, IPaginationOptions,IPaginationResponse, IUser, IUserDocument, IUserFilter } from "../../../../types"
 import UserModel from "../../../db/models/system/user.model";
 import HttpStatus from "http-status";
 import ApiError from "../../../../includes/library/api.error.library";
@@ -43,7 +43,7 @@ class UserService implements ICrudService {
       throw new ApiError(HttpStatus.BAD_REQUEST, global.polyglot.t("USERS_ERROR_USERNAME_ALREADY_TAKEN"));
     }
 
-    let resource = await UserModel.create(data);
+    const resource = await UserModel.create(data);
 
     return resource;
   }
