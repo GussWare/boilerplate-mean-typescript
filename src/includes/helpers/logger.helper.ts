@@ -1,5 +1,6 @@
 import path from 'path';
 import winston from 'winston';
+import DailyRotateFile  =require('winston-daily-rotate-file');
 
 const loggerHelper = winston.createLogger({
   level: 'info',
@@ -21,8 +22,9 @@ const loggerHelper = winston.createLogger({
       ),
       stderrLevels: ['error']
     }),
-    new winston.transports.File({ 
-      filename: path.join(__dirname, '../../app.log'),
+    new DailyRotateFile({
+      filename: path.join(__dirname, '../../logs/app-%DATE%.log'),
+      datePattern: 'YYYY-MM-DD',
       format: winston.format.combine(
         winston.format.timestamp({
           format: 'YYYY-MM-DD HH:mm:ss'
